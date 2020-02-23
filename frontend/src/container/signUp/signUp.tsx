@@ -3,6 +3,7 @@ import './signUp.scss';
 import InputBox from '../../components/inputBox/inputBox';
 import {Button} from '../../components/Button/button';
 import {Link} from 'react-router-dom';
+import axios from '../../axios_order'
 interface signUpProps{
   
 }
@@ -25,7 +26,19 @@ const SignUp = (props:signUpProps) => {
     setPassword(event.target.value)
   }
   const onButton=()=>{
-    
+    axios.post('/signup',null,{params:{
+      firstName,
+      lastName,
+      email,
+      password
+    }})
+    .then((response)=>{
+      localStorage.setItem('login',JSON.stringify({
+          login:true,
+          token:response.data.token
+      }))
+  })
+    .catch(error=>console.log(error))
   }
   return (
     <div>
@@ -50,7 +63,7 @@ const SignUp = (props:signUpProps) => {
         <label>Email</label>
         <InputBox
         value={email}
-        type="text"
+        type="email"
         onChangeHandler={onEmail}
         />
       </section>
@@ -63,7 +76,7 @@ const SignUp = (props:signUpProps) => {
         />
       </section>
       <section>
-        <Link to='/login'><Button color="primary" onClick={onButton} className="btn btn--primary">
+        <Link to='/dashboard'><Button color="primary" onClick={onButton} className="btn btn--primary">
                           Sign Up
         </Button></Link>
       </section>
