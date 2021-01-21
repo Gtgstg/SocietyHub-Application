@@ -1,3 +1,1 @@
 # SocietyHub Application
-Hello
-Hii
